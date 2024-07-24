@@ -1,7 +1,10 @@
 from fastapi import FastAPI
-import models.todo as todo
+from models.todo import Base
 from db.session import engine
+from endpoints import todo
 
 app = FastAPI()
 
-todo.Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
+
+app.include_router(todo.router)

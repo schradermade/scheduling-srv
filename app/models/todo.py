@@ -1,6 +1,7 @@
 from db.session import Base
 from sqlalchemy import Column, Integer, String, Boolean
 
+# ORM Models
 class Todos(Base):
   __tablename__='todos'
 
