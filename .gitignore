@@ -1,3 +1,4 @@
 todo-env/
 settings.json
 __pycache__/
+todos.db
