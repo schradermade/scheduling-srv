@@ -8,5 +8,5 @@ app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
 
-app.include_router(AuthRouter, prefix='/auth')
-app.include_router(TodoRouter, prefix='/todo')
+app.include_router(AuthRouter)
+app.include_router(TodoRouter)

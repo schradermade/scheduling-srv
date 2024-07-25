@@ -4,7 +4,10 @@ from schemas.todo import TodoRequest
 from starlette import status
 from dependencies.db import db_dependancy
 
-router = APIRouter()
+router = APIRouter(
+  prefix='/todo',
+  tags=['todo']
+)
 
 @router.get('/', status_code=status.HTTP_200_OK)
 async def read_all(db: db_dependancy):
