@@ -1,3 +1,4 @@
+from pydantic import BaseModel, Field
 from db.session import Base
 from sqlalchemy import Column, Integer, String, Boolean
 
@@ -13,3 +14,7 @@ class Users(Base):
   hashed_password = Column(String)
   is_active = Column(Boolean, default=True)
   role = Column(String)
+
+class UserVerification(BaseModel):
+  password: str
+  new_password: str = Field(min_length=6)
