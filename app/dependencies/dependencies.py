@@ -1,8 +1,7 @@
-from services.auth import get_current_user
 from typing import Annotated
-from fastapi import Depends
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException
 from starlette import status
+from ..services.auth import get_current_user
 
 user_dependency = Annotated[dict, Depends(get_current_user)]
 

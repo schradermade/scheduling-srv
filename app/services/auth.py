@@ -1,17 +1,21 @@
+import os
+from dotenv import load_dotenv
 from datetime import timedelta, datetime, timezone
 from typing import Annotated
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
-from models.user import Users
-from utils.security import bcrypt_context, oauth2_bearer
 from jose import jwt, JWTError
 from starlette import status
+from ..models import User
+from ..utils.security import bcrypt_context, oauth2_bearer
 
-SECRET_KEY = 'dc54fd359bd9ac6cc0cc262f4e6268e7f671ed988b447c72543f5d16c539de74'
+load_dotenv()
+
+SECRET_KEY = os.getenv('AUTH_SECRET_KEY')
 ALGORITHM = 'HS256'
 
 def authenticate_user(username: str, password: str, db: Session):
-    user = db.query(Users).filter(Users.username == username).first()
+    user = db.query(User).filter(User.username == username).first()
     if not user:
         return False
     if not bcrypt_context.verify(password, user.hashed_password):

@@ -3,12 +3,11 @@ from starlette import status
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from models.user import Users
-from models.token import Token
-from schemas.user import CreateUserRequest
-from dependencies.db import db_dependency
-from services.auth import authenticate_user, create_access_token
-from utils.security import bcrypt_context
+from ..models import User, Token
+from ..schemas import CreateUserRequest
+from ..dependencies.db import db_dependency
+from ..services.auth import authenticate_user, create_access_token
+from ..utils.security import bcrypt_context
 
 router = APIRouter(
     prefix='/auth',
@@ -19,7 +18,7 @@ router = APIRouter(
 async def create_user(db: db_dependency,
                       create_user_request: CreateUserRequest):
     # create user model and assign the values from req body param
-    create_user_model = Users(
+    create_user_model = User(
         email=create_user_request.email,
         username=create_user_request.username,
         first_name=create_user_request.first_name,

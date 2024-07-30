@@ -1,5 +1,5 @@
-from db.session import Base
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
+from ..db.session import Base
 
 # ORM Models
 class Todos(Base):

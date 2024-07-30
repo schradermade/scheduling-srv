@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Path
-from models.todo import Todos
-from schemas.todo import TodoRequest
 from starlette import status
-from dependencies.db import db_dependency
-from dependencies.dependencies import get_current_user
+from ..models import Todos
+from ..schemas import TodoRequest
+from ..dependencies.db import db_dependency
+from ..dependencies.dependencies import get_current_user
 
 router = APIRouter(
   prefix='/todo',
@@ -11,11 +11,14 @@ router = APIRouter(
 )
 
 @router.get('/', status_code=status.HTTP_200_OK)
-async def read_all(db: db_dependency, user: dict = Depends(get_current_user)):
+async def read_all(db: db_dependency, 
+                   user: dict = Depends(get_current_user)):
   return db.query(Todos).filter(Todos.owner_id == user.get('id')).all()
 
 @router.get('/{todo_id}', status_code=status.HTTP_200_OK)
-async def read_todo(db: db_dependency, todo_id: int = Path(gt=0), user: dict = Depends(get_current_user)):
+async def read_todo(db: db_dependency, 
+                    todo_id: int = Path(gt=0), 
+                    user: dict = Depends(get_current_user)):
   todo_model = db.query(Todos).filter(Todos.id == todo_id)\
     .filter(Todos.owner_id == user.get('id')).first()
   if todo_model is not None:
