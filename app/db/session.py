@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 load_dotenv()
 
-SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
+SQLALCHEMY_DATABASE_URL = os.getenv('PROD_DATABASE_URL')
 
 # used to set up the connection to the database
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
