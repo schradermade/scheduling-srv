@@ -1,9 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, Path
 from starlette import status
+from typing import Annotated
+from sqlalchemy.orm import Session
 from ..models import Todos
 from ..schemas import TodoRequest
-from ..dependencies.db import db_dependency
+from ..dependencies.db import get_db
 from ..dependencies.dependencies import get_current_user
+
+db_dependency = Annotated[Session, Depends(get_db)]
+user_dependency = Annotated[dict, Depends(get_current_user)]
 
 router = APIRouter(
   prefix='/todo',
