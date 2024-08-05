@@ -1,18 +1,23 @@
 from datetime import timedelta
 from starlette import status
 from typing import Annotated
+from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from ..models import User, Token
 from ..schemas import CreateUserRequest
-from ..dependencies.db import db_dependency
 from ..services.auth import authenticate_user, create_access_token
 from ..utils.security import bcrypt_context
+from ..dependencies.db import get_db
+from ..dependencies.dependencies import get_current_user
 
 router = APIRouter(
     prefix='/auth',
     tags=['auth']
 )
+
+db_dependency = Annotated[Session, Depends(get_db)]
+user_dependency = Annotated[dict, Depends(get_current_user)]
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency,
